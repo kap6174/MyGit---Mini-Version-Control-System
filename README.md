@@ -1,0 +1,1 @@
+cat file - in -s showing the size of the decompressed content
