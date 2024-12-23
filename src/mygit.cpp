@@ -9,6 +9,7 @@
 #include "add_files.h"
 #include "commit.h"
 #include "log.h"  
+#include "checkout.h" 
 
 using namespace std;
 
@@ -111,6 +112,16 @@ int main(int argc, char* argv[])
         else if (command == "log")
         {
             print_log();
+        }
+        else if (command == "checkout")
+        {
+            if (argc != 3) 
+            {
+                cerr << "Usage: ./mygit checkout <commit_sha>" << endl;
+                return 1;
+            }
+            string commit_sha = argv[2];
+            checkout_commit(commit_sha);
         }
         else 
         {

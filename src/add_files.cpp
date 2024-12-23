@@ -62,9 +62,9 @@ void add_files(const vector<string>& files)
             }
         }
 
-    } 
+    }   
     else 
-    {  // If adding specific files
+    {  // If adding specific files or directories
         ifstream index_stream(index_file);
         index_stream.seekg(0, ios::end);
         bool index_empty = (index_stream.tellg() == 0); //Checks if index is empty
@@ -76,18 +76,29 @@ void add_files(const vector<string>& files)
             update_index(index_file, "040000 tree " + tree_hash + " .");
         }
 
-        // Process each specified file
+        // Process each specified file or directory
         for (const string& file : files) 
         {
             if (filesystem::exists(file)) 
             {
-                string sha = hash_object(file, true);
-                string file_entry = "100644 blob " + sha + " " + file;
-                update_index(index_file, file_entry);
+                if (filesystem::is_regular_file(file)) 
+                {
+                    // If it's a file, treat it as a blob
+                    string sha = hash_object(file, true);
+                    string file_entry = "100644 blob " + sha + " " + file;
+                    update_index(index_file, file_entry);
+                } 
+                else if (filesystem::is_directory(file)) 
+                {
+                    // If it's a directory, treat it as a tree
+                    string dir_hash = write_tree(file);
+                    string dir_entry = "040000 tree " + dir_hash + " " + file;
+                    update_index(index_file, dir_entry);
+                }
             } 
             else 
             {
-                cerr << "File " << file << " does not exist." << endl;
+                cerr << "File or directory " << file << " does not exist." << std::endl;
             }
         }
     }
