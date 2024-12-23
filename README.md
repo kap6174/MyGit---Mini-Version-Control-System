@@ -1,10 +1,4 @@
-# AOS Assignment 4 - Mini Version Control System (MVCS)
-
-Junaid Ahmed  
-Roll No: 2024201018  
-M.Tech CSE  
-
----
+# MyGit - Mini Version Control System (MVCS)
 
 This project involves developing a mini version control system (MVCS) in C++ that mimics basic functionalities of Git. In a gist the system allows users to initialize a repository, add files, commit changes, and checkout specific commits. The goal is to implement the core concepts of version control systems and how they manage file changes over time.
 
